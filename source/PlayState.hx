@@ -219,7 +219,7 @@ class PlayState extends MusicBeatState
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
+	var dialogue:Array<String> = ['fuck you! you fucking dick!', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
 
 	var dadbattleBlack:BGSprite;
