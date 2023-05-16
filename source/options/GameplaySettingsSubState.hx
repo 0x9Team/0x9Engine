@@ -63,11 +63,27 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('HP Gain Type:',
+			"Which engine's health gain do you want?",
+			'healthGainType',
+			'string',
+			'VS Impostor',
+			['VS Impostor', 'Kade (1.2)', 'Kade (1.4.2 to 1.6)', 'Kade (1.6+)', 'Doki Doki+', 'Psych Engine']);
+		addOption(option);
+
+
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
 			'bool',
 			true);
+		addOption(option);
+
+		var option:Option = new Option('CommunityGame Mode',
+			"What do you think this does?",
+			'communityGameMode',
+			'bool',
+			false);
 		addOption(option);
 
 		var option:Option = new Option('Disable Reset Button',

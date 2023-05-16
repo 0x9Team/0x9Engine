@@ -21,6 +21,7 @@ class Note extends FlxSprite
 {
 	public var extraData:Map<String,Dynamic> = [];
 
+	public var row:Int = 0;
 	public var strumTime:Float = 0;
 	public var mustPress:Bool = false;
 	public var noteData:Int = 0;
@@ -258,6 +259,9 @@ class Note extends FlxSprite
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
 				skin = 'NOTE_assets';
+			}
+			if(ClientPrefs.hudType == 'Doki Doki+') {
+				skin = 'NOTE_assets_doki';
 			}
 		}
 

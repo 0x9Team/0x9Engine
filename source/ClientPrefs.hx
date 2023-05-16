@@ -20,10 +20,16 @@ class ClientPrefs {
 	public static var cursing:Bool = true;
 	public static var violence:Bool = true;
 	public static var camZooms:Bool = true;
+	public static var showNotes:Bool = true;
+	public static var doubleGhost:Bool = true;
 	public static var hideHud:Bool = false;
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 	public static var ghostTapping:Bool = true;
+	public static var communityGameMode:Bool = false;
+	public static var hudType:String = 'Kade Engine';
+	public static var healthGainType:String = 'Psych Engine';
+	public static var iconBounceType:String = 'Golden Apple';
 	public static var timeBarType:String = 'Time Left';
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
@@ -51,7 +57,13 @@ class ClientPrefs {
 		'instakill' => false,
 		'practice' => false,
 		'botplay' => false,
-		'opponentplay' => false
+		'randommode' => false,
+		'opponentplay' => false,
+		'opponentdrain' => false,
+		'drainlevel' => 1,
+		'flip' => false,
+		'stairmode' => false,
+		'wavemode' => false
 	];
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
@@ -107,10 +119,16 @@ class ClientPrefs {
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.camZooms = camZooms;
+		FlxG.save.data.showNotes = showNotes;
+		FlxG.save.data.doubleGhost = doubleGhost;
+		FlxG.save.data.iconBounceType = iconBounceType;
+		FlxG.save.data.hudType = hudType;
+		FlxG.save.data.healthGainType = healthGainType;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
 		FlxG.save.data.arrowHSV = arrowHSV;
 		FlxG.save.data.ghostTapping = ghostTapping;
+		FlxG.save.data.communityGameMode = communityGameMode;
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.noReset = noReset;
@@ -190,6 +208,12 @@ class ClientPrefs {
 		if(FlxG.save.data.camZooms != null) {
 			camZooms = FlxG.save.data.camZooms;
 		}
+		if(FlxG.save.data.showNotes != null) {
+			showNotes = FlxG.save.data.showNotes;
+		}
+		if(FlxG.save.data.doubleGhost != null) {
+			doubleGhost = FlxG.save.data.doubleGhost;
+		}
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
 		}
@@ -202,8 +226,20 @@ class ClientPrefs {
 		if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
 		}
+		if(FlxG.save.data.communityGameMode != null) {
+			communityGameMode = FlxG.save.data.communityGameMode;
+		}
 		if(FlxG.save.data.timeBarType != null) {
 			timeBarType = FlxG.save.data.timeBarType;
+		}
+		if(FlxG.save.data.hudType != null) {
+			hudType = FlxG.save.data.hudType;
+		}
+		if(FlxG.save.data.healthGainType != null) {
+			healthGainType = FlxG.save.data.healthGainType;
+		}
+		if(FlxG.save.data.iconBounceType != null) {
+			iconBounceType = FlxG.save.data.iconBounceType;
 		}
 		if(FlxG.save.data.scoreZoom != null) {
 			scoreZoom = FlxG.save.data.scoreZoom;

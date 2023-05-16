@@ -108,6 +108,7 @@ class ChartingState extends MusicBeatState
 	private static var lastSong:String = '';
 
 	var bpmTxt:FlxText;
+	var songSlider:FlxUISlider;
 
 	var camPos:FlxObject;
 	var strumLine:FlxSprite;
@@ -389,6 +390,46 @@ class ChartingState extends MusicBeatState
 		add(curRenderedNoteType);
 		add(nextRenderedSustains);
 		add(nextRenderedNotes);
+
+		songSlider = new FlxUISlider(FlxG.sound.music, 'time', 1000, 15, 0, FlxG.sound.music.length, 250, 15, 5);
+		songSlider.valueLabel.visible = false;
+		songSlider.maxLabel.visible = false;
+		songSlider.minLabel.visible = false;
+		add(songSlider);
+		songSlider.scrollFactor.set();
+		songSlider.callback = function(fuck:Float)
+		{
+			vocals.time = FlxG.sound.music.time;
+			var shit = Std.int(FlxG.sound.music.time / (Conductor.crochet * 4)); //TODO uhh make this work properly with bpm changes or somethin
+
+			if (Conductor.bpmChangeMap.length > 0)
+			{
+				var foundSection:Bool = false;
+				var sec:Int = 1;
+				var lastSecStartTime:Float = 0;
+				while(!foundSection)
+				{	
+					var secStartTime = sectionStartTime(sec);
+					if (FlxG.sound.music.time >= lastSecStartTime && FlxG.sound.music.time <= secStartTime)
+					{
+						shit = sec;
+						foundSection = true;
+					}
+					else if (secStartTime >= FlxG.sound.music.length)
+					{
+						shit = 0;
+						foundSection = true;
+					}
+					sec++;
+					lastSecStartTime = secStartTime;
+				}
+			}
+
+
+
+
+			changeSection(shit);
+		};
 
 		if(lastSong != currentSongName) {
 			changeSection();
@@ -1370,6 +1411,15 @@ class ChartingState extends MusicBeatState
 		}
 		generateSong();
 		FlxG.sound.music.pause();
+		FlxG.sound.music.onComplete = function()
+		{
+			vocals.pause();
+			vocals.time = 0;
+			FlxG.sound.music.pause();
+			FlxG.sound.music.time = 0;
+			songSlider.maxValue = FlxG.sound.music.length;
+			changeSection();
+		};
 		Conductor.songPosition = sectionStartTime();
 		FlxG.sound.music.time = Conductor.songPosition;
 	}

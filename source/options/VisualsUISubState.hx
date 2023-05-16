@@ -47,6 +47,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+
+		var option:Option = new Option('Double Note Ghosts',
+			"If this is checked, hitting a Double Note will show an afterimage, just like in VS Impostor!",
+			'doubleGhost',
+			'bool',
+			true);
+		addOption(option);
 		
 		var option:Option = new Option('Time Bar:',
 			"What should the Time Bar display?",
@@ -54,6 +61,22 @@ class VisualsUISubState extends BaseOptionsMenu
 			'string',
 			'Time Left',
 			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+		addOption(option);
+
+		var option:Option = new Option('HUD Type:',
+			"Which HUD would you like?",
+			'hudType',
+			'string',
+			'VS Impostor',
+			['VS Impostor', 'Kade Engine', 'Dave & Bambi', 'Doki Doki+', 'Psych Engine']);
+		addOption(option);
+
+		var option:Option = new Option('Icon Bounce:',
+			"Which icon bounce would you like?",
+			'iconBounceType',
+			'string',
+			'Golden Apple',
+			['Golden Apple', 'Dave and Bambi', 'Old Psych', 'New Psych']);
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
@@ -66,6 +89,13 @@ class VisualsUISubState extends BaseOptionsMenu
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
 			'camZooms',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Show Notes',
+			"If unchecked, the notes will be invisible. You can still play them though!",
+			'showNotes',
 			'bool',
 			true);
 		addOption(option);
