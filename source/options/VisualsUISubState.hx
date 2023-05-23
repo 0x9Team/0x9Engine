@@ -48,6 +48,28 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Golden Sick on MFC/SFC',
+			'If checked, your Sick! & Marvelous!! ratings will be golden if your FC rating is better than GFC.',
+			'goldSickSFC',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Rating FC Colors',
+			'If checked, the ratings & combo will be colored based on your FC rating.',
+			'colorRatingFC',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Marvelous Rating Color:',
+			"What should the Marvelous Rating Color be?",
+			'marvRateColor',
+			'string',
+			'Golden',
+			['Golden', 'Rainbow']);
+		addOption(option);
+
 		var option:Option = new Option('Double Note Ghosts',
 			"If this is checked, hitting a Double Note will show an afterimage, just like in VS Impostor!",
 			'doubleGhost',
@@ -68,7 +90,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'hudType',
 			'string',
 			'VS Impostor',
-			['VS Impostor', 'Kade Engine', 'Dave & Bambi', 'Doki Doki+', 'Psych Engine']);
+			['VS Impostor', 'Kade Engine', 'Tails Gets Trolled V4', 'Dave & Bambi', 'Doki Doki+', 'Psych Engine']);
 		addOption(option);
 
 		var option:Option = new Option('Icon Bounce:',
@@ -76,7 +98,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'iconBounceType',
 			'string',
 			'Golden Apple',
-			['Golden Apple', 'Dave and Bambi', 'Old Psych', 'New Psych']);
+			['Golden Apple', 'Dave and Bambi', 'Old Psych', 'New Psych', 'VS Steve']);
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
@@ -110,6 +132,25 @@ class VisualsUISubState extends BaseOptionsMenu
 		var option:Option = new Option('Health Bar Transparency',
 			'How much transparent should the health bar and icons be.',
 			'healthBarAlpha',
+			'percent',
+			1);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0.0;
+		option.maxValue = 1;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+		addOption(option);
+
+		var option:Option = new Option('Lane Underlay',
+			"If checked, a black line will appear behind the notes, making them easier to read.",
+			'laneUnderlay',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Lane Underlay Transparency',
+			'How transparent do you want the lane underlay to be? (0% = transparent, 100% = fully opaque)',
+			'laneUnderlayAlpha',
 			'percent',
 			1);
 		option.scrollSpeed = 1.6;
