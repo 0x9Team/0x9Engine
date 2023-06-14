@@ -22,6 +22,7 @@ import options.GraphicsSettingsSubState;
 //import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFrame;
+import flixel.addons.effects.FlxTrail;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxMath;
@@ -35,6 +36,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import openfl.Assets;
+import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
 typedef TitleData =
@@ -220,9 +222,11 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
+	var logoBltrail:FlxTrail;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
+	var titlestatebg:FlxBackdrop;
 	var swagShader:ColorSwap = null;
 
 	function startIntro()
@@ -275,7 +279,7 @@ class TitleState extends MusicBeatState
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 1, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 		// logoBl.screenCenter();
@@ -318,9 +322,21 @@ class TitleState extends MusicBeatState
 		}
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 
+		titlestatebg = new FlxBackdrop(Paths.image('loading'), 0.2, 0, true, true);
+		titlestatebg.velocity.set(200, 110);
+		titlestatebg.updateHitbox();
+		titlestatebg.alpha = 0.5;
+		titlestatebg.screenCenter(X);
+		add(titlestatebg);
+		titlestatebg.shader = swagShader.shader;
+
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
 		add(logoBl);
+		logoBl.shader = swagShader.shader;
+		add(logoBltrail);
+        add(logoBl);
+        logoBltrail.shader = swagShader.shader;
 		logoBl.shader = swagShader.shader;
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
@@ -647,6 +663,8 @@ class TitleState extends MusicBeatState
 					addMoreText('RiverOaken', 15);
 					addMoreText('shubs', 15);
 					addMoreText('Jordan Santiago', 15);
+					addMoreText('0x9', 15);
+					addMoreText('Expunged DX', 15);
 					#else
 					addMoreText('present');
 					#end
