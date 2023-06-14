@@ -1382,10 +1382,28 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "addHealth", function(value:Float = 0) {
 			PlayState.instance.health += value;
 		});
+		Lua_helper.add_callback(lua, "addPlaybackSpeed", function(value:Float = 0) {
+			PlayState.instance.playbackRate += value;
+		});
 		Lua_helper.add_callback(lua, "getHealth", function() {
 			return PlayState.instance.health;
 		});
-
+		Lua_helper.add_callback(lua, "getPlaybackSpeed", function() {
+			return PlayState.instance.playbackRate;
+		});
+		Lua_helper.add_callback(lua, "setPlaybackSpeed", function(value:Float = 0) {
+			PlayState.instance.playbackRate = value;
+		});
+		Lua_helper.add_callback(lua, "changeMaxHealth", function(value:Float = 0) {
+			{
+				var bar = PlayState.instance.healthBar;
+				PlayState.instance.maxHealth = value;
+				bar.setRange(0, value);
+			}
+		});
+		Lua_helper.add_callback(lua, "getMaxHealth", function() {
+			return PlayState.instance.maxHealth;
+		});
 		Lua_helper.add_callback(lua, "getColorFromHex", function(color:String) {
 			if(!color.startsWith('0x')) color = '0xff' + color;
 			return Std.parseInt(color);

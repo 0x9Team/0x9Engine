@@ -41,6 +41,26 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Opponent Note Splashes',
+			"If checked, opponent note hits will show particles.",
+			'oppNoteSplashes',
+			'bool',
+			true);
+		addOption(option);
+
+
+		var option:Option = new Option('Opponent Note Alpha:',
+			"How visible do you want the opponent's notes to be when Middlescroll is enabled? \n(0% = invisible, 100% = fully visible)",
+			'oppNoteAlpha',
+			'percent',
+			0.65);
+		option.scrollSpeed = 1.8;
+		option.minValue = 0.0;
+		option.maxValue = 1;
+		option.changeValue = 0.01;
+		option.decimals = 2;
+		addOption(option);
+
 		var option:Option = new Option('Hide HUD',
 			'If checked, hides most HUD elements.',
 			'hideHud',
@@ -82,7 +102,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'timeBarType',
 			'string',
 			'Time Left',
-			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+			['Time Left', 'Time Elapsed', 'Song Name', 'Modern Time', 'Song Name + Time', 'Disabled']);
 		addOption(option);
 
 		var option:Option = new Option('HUD Type:',
@@ -90,7 +110,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'hudType',
 			'string',
 			'VS Impostor',
-			['VS Impostor', 'Kade Engine', 'Tails Gets Trolled V4', 'Dave & Bambi', 'Doki Doki+', 'Psych Engine']);
+			['VS Impostor', 'Kade Engine', 'Tails Gets Trolled V4', 'Dave & Bambi', 'Doki Doki+', 'Psych Engine', 'Leather Engine', "Mic'd Up"]);
 		addOption(option);
 
 		var option:Option = new Option('Icon Bounce:',
@@ -99,6 +119,35 @@ class VisualsUISubState extends BaseOptionsMenu
 			'string',
 			'Golden Apple',
 			['Golden Apple', 'Dave and Bambi', 'Old Psych', 'New Psych', 'VS Steve']);
+		addOption(option);
+
+		var option:Option = new Option('long ass health bar',
+			"If this is checked, the Health Bar will become LOOOOOONG",
+			'longHPBar',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Note Splash Type:',
+			"Which note splash would you like?",
+			'splashType',
+			'string',
+			'Psych Engine',
+			['Psych Engine', 'VS Impostor', 'Base Game', 'Doki Doki+', 'TGT V4', 'Indie Cross']);
+		addOption(option);
+
+		var option:Option = new Option('Light Opponent Strums',
+			"If this is unchecked, the Opponent strums won't light up when the Opponent hits a note.",
+			'opponentLightStrum',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Light Botplay Strums',
+			"If this is unchecked, the Player strums won't light when Botplay is active.",
+			'botLightStrum',
+			'bool',
+			true);
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
@@ -113,6 +162,31 @@ class VisualsUISubState extends BaseOptionsMenu
 			'camZooms',
 			'bool',
 			true);
+		addOption(option);
+
+		var option:Option = new Option('Show Song Percentage',
+			"If checked, you can see text displaying how much\nof the song you've completed.",
+			'songPercentage',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('% Decimals: ',
+			"The amount of decimals you want for your Song Percentage. (0 means no decimals)",
+			'percentDecimals',
+			'int',
+			2);
+		addOption(option);
+
+		option.minValue = 0;
+		option.maxValue = 50;
+		option.displayFormat = '%v Decimals';
+
+		var option:Option = new Option('Rating Counter',
+			"If checked, you can see how many Sicks, Goods, Bads, etc you've hit on the left.",
+			'ratingCounter',
+			'bool',
+			false);
 		addOption(option);
 
 		var option:Option = new Option('Show Notes',
@@ -169,6 +243,13 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 		#end
+
+		var option:Option = new Option('Random Botplay Text',
+			"Uncheck this if you don't want to be insulted when\nyou use Botplay.",
+			'randomBotplayText',
+			'bool',
+			true);
+		addOption(option);
 		
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",

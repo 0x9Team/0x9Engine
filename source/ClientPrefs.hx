@@ -9,15 +9,26 @@ import Controls;
 class ClientPrefs {
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
+	public static var mobileMidScroll:Bool = false;
 	public static var opponentStrums:Bool = true;
 	public static var showFPS:Bool = true;
 	public static var flashing:Bool = true;
 	public static var globalAntialiasing:Bool = true;
+	public static var ghostTapAnim:Bool = true;
+	public static var spaceVPose:Bool = true;
 	public static var noteSplashes:Bool = true;
+	public static var oppNoteSplashes:Bool = true;
+	public static var instaRestart:Bool = false;
 	public static var lowQuality:Bool = false;
 	public static var shaders:Bool = true;
 	public static var framerate:Int = 60;
 	public static var cursing:Bool = true;
+	public static var longHPBar:Bool = false;
+	public static var moreMaxHP:Bool = false;
+	public static var songPercentage:Bool = true;
+	public static var randomBotplayText:Bool = true;
+	public static var opponentLightStrum:Bool = true;
+	public static var botLightStrum:Bool = true;
 	public static var violence:Bool = true;
 	public static var camZooms:Bool = true;
 	public static var showNotes:Bool = true;
@@ -27,10 +38,18 @@ class ClientPrefs {
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 	public static var ghostTapping:Bool = true;
 	public static var communityGameMode:Bool = false;
+	public static var shitGivesMiss:Bool = false;
+	public static var noteSpawnTime:Float = 1;
+	public static var oppNoteAlpha:Float = 0.65;
+	public static var lessBotLag:Bool = false;
+	public static var ratingCounter:Bool = false;
+	public static var moreSpecificSpeed:Bool = true;
 	public static var coolGameplay:Bool = false;
-	public static var fuckDeath:Bool = false;
 	public static var hudType:String = 'Kade Engine';
+	public static var percentDecimals:Int = 2;
 	public static var healthGainType:String = 'Psych Engine';
+	public static var hitsoundType:String = 'osu!mania';
+	public static var splashType:String = 'Psych Engine';
 	public static var iconBounceType:String = 'Golden Apple';
 	public static var timeBarType:String = 'Time Left';
 	public static var marvRateColor:String = 'Golden';
@@ -38,6 +57,7 @@ class ClientPrefs {
 	public static var scoreZoom:Bool = true;
 	public static var goldSickSFC:Bool = true;
 	public static var colorRatingFC:Bool = false;
+	public static var missSoundShit:Bool = false;
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
 	public static var laneUnderlayAlpha:Float = 1;
@@ -71,7 +91,10 @@ class ClientPrefs {
 		'drainlevel' => 1,
 		'flip' => false,
 		'stairmode' => false,
-		'wavemode' => false
+		'wavemode' => false,
+		'onekey' => false,
+		'jacks' => 0,
+		'randomspeed' => false
 	];
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
@@ -105,7 +128,8 @@ class ClientPrefs {
 		'volume_down'	=> [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE]
+		'debug_2'		=> [EIGHT, NONE],
+		'qt_taunt'		=> [SPACE, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -117,11 +141,13 @@ class ClientPrefs {
 	public static function saveSettings() {
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
+		FlxG.save.data.mobileMidScroll = mobileMidScroll;
 		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.flashing = flashing;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
+		FlxG.save.data.oppNoteSplashes = oppNoteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.framerate = framerate;
@@ -130,23 +156,41 @@ class ClientPrefs {
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.showNotes = showNotes;
 		FlxG.save.data.doubleGhost = doubleGhost;
+		FlxG.save.data.randomBotplayText = randomBotplayText;
+		FlxG.save.data.instaRestart = instaRestart;
+		FlxG.save.data.percentDecimals = percentDecimals;
 		FlxG.save.data.iconBounceType = iconBounceType;
+		FlxG.save.data.noteSpawnTime = noteSpawnTime;
+		FlxG.save.data.botLightStrum = botLightStrum;
+		FlxG.save.data.opponentLightStrum = opponentLightStrum;
+		FlxG.save.data.hitsoundType = hitsoundType;
 		FlxG.save.data.hudType = hudType;
+		FlxG.save.data.ratingCounter = ratingCounter;
 		FlxG.save.data.healthGainType = healthGainType;
+		FlxG.save.data.oppNoteAlpha = oppNoteAlpha;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
 		FlxG.save.data.arrowHSV = arrowHSV;
+		FlxG.save.data.longHPBar = longHPBar;
+		FlxG.save.data.moreMaxHP = moreMaxHP;
+		FlxG.save.data.moreSpecificSpeed = moreSpecificSpeed;
+		FlxG.save.data.spaceVPose = spaceVPose;
+		FlxG.save.data.ghostTapAnim = ghostTapAnim;
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.communityGameMode = communityGameMode;
+		FlxG.save.data.lessBotLag = lessBotLag;
+		FlxG.save.data.songPercentage = songPercentage;
 		FlxG.save.data.coolGameplay = coolGameplay;
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.marvRateColor = marvRateColor;
 		FlxG.save.data.noMarvJudge = noMarvJudge;
 		FlxG.save.data.goldSickSFC = goldSickSFC;
 		FlxG.save.data.colorRatingFC = colorRatingFC;
+		FlxG.save.data.missSoundShit = missSoundShit;
+		FlxG.save.data.splashType = splashType;
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.noReset = noReset;
-		FlxG.save.data.fuckDeath = fuckDeath;
+		FlxG.save.data.shitGivesMiss = shitGivesMiss;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.laneUnderlayAlpha = laneUnderlayAlpha;
 		FlxG.save.data.laneUnderlay = laneUnderlay;
@@ -183,6 +227,9 @@ class ClientPrefs {
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
 		}
+		if(FlxG.save.data.mobileMidScroll != null) {
+			mobileMidScroll = FlxG.save.data.mobileMidScroll;
+		}
 		if(FlxG.save.data.opponentStrums != null) {
 			opponentStrums = FlxG.save.data.opponentStrums;
 		}
@@ -198,17 +245,65 @@ class ClientPrefs {
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
 		}
+		if(FlxG.save.data.oppNoteAlpha != null) {
+			oppNoteAlpha = FlxG.save.data.oppNoteAlpha;
+		}
 		if(FlxG.save.data.noteSplashes != null) {
 			noteSplashes = FlxG.save.data.noteSplashes;
+		}
+		if(FlxG.save.data.oppNoteSplashes != null) {
+			oppNoteSplashes = FlxG.save.data.oppNoteSplashes;
+		}
+		if(FlxG.save.data.randomBotplayText != null) {
+			randomBotplayText = FlxG.save.data.randomBotplayText;
+		}
+		if(FlxG.save.data.splashType != null) {
+			splashType = FlxG.save.data.splashType;
+		}
+		if(FlxG.save.data.percentDecimals != null) {
+			percentDecimals = FlxG.save.data.percentDecimals;
+		}
+		if(FlxG.save.data.songPercentage != null) {
+			songPercentage = FlxG.save.data.songPercentage;
+		}
+		if(FlxG.save.data.noteSpawnTime != null) {
+			noteSpawnTime = FlxG.save.data.noteSpawnTime;
+		}
+		if(FlxG.save.data.instaRestart != null) {
+			instaRestart = FlxG.save.data.instaRestart;
+		}
+		if(FlxG.save.data.hitsoundType != null) {
+			hitsoundType = FlxG.save.data.hitsoundType;
 		}
 		if(FlxG.save.data.lowQuality != null) {
 			lowQuality = FlxG.save.data.lowQuality;
 		}
+		if(FlxG.save.data.ratingCounter != null) {
+			ratingCounter = FlxG.save.data.ratingCounter;
+		}
+		if(FlxG.save.data.longHPBar != null) {
+			longHPBar = FlxG.save.data.longHPBar;
+		}
+		if(FlxG.save.data.moreMaxHP != null) {
+			moreMaxHP = FlxG.save.data.moreMaxHP;
+		}
 		if(FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
 		}
+		if(FlxG.save.data.moreSpecificSpeed != null) {
+			moreSpecificSpeed = FlxG.save.data.moreSpecificSpeed;
+		}
 		if(FlxG.save.data.goldSickSFC != null) {
 			goldSickSFC = FlxG.save.data.goldSickSFC;
+		}
+		if(FlxG.save.data.botLightStrum != null) {
+			botLightStrum = FlxG.save.data.botLightStrum;
+		}
+		if(FlxG.save.data.missSoundShit != null) {
+			missSoundShit = FlxG.save.data.missSoundShit;
+		}
+		if(FlxG.save.data.opponentLightStrum != null) {
+			opponentLightStrum = FlxG.save.data.opponentLightStrum;
 		}
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
@@ -229,6 +324,9 @@ class ClientPrefs {
 		if(FlxG.save.data.camZooms != null) {
 			camZooms = FlxG.save.data.camZooms;
 		}
+		if(FlxG.save.data.shitGivesMiss != null) {
+			shitGivesMiss = FlxG.save.data.shitGivesMiss;
+		}
 		if(FlxG.save.data.showNotes != null) {
 			showNotes = FlxG.save.data.showNotes;
 		}
@@ -236,7 +334,7 @@ class ClientPrefs {
 			doubleGhost = FlxG.save.data.doubleGhost;
 		}
 		if(FlxG.save.data.coolGameplay != null) {
-			doubleGhost = FlxG.save.data.coolGameplay;
+			coolGameplay = FlxG.save.data.coolGameplay;
 		}
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
@@ -247,11 +345,20 @@ class ClientPrefs {
 		if(FlxG.save.data.arrowHSV != null) {
 			arrowHSV = FlxG.save.data.arrowHSV;
 		}
+		if(FlxG.save.data.lessBotLag != null) {
+			lessBotLag = FlxG.save.data.lessBotLag;
+		}
 		if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
 		}
 		if(FlxG.save.data.communityGameMode != null) {
 			communityGameMode = FlxG.save.data.communityGameMode;
+		}
+		if(FlxG.save.data.spaceVPose != null) {
+			spaceVPose = FlxG.save.data.spaceVPose;
+		}
+		if(FlxG.save.data.ghostTapAnim != null) {
+			ghostTapAnim = FlxG.save.data.ghostTapAnim;
 		}
 		if(FlxG.save.data.timeBarType != null) {
 			timeBarType = FlxG.save.data.timeBarType;

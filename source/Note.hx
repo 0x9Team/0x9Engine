@@ -122,6 +122,7 @@ class Note extends FlxSprite
 
 	private function set_noteType(value:String):String {
 		noteSplashTexture = PlayState.SONG.splashSkin;
+
 		if (noteData > -1 && noteData < ClientPrefs.arrowHSV.length)
 		{
 			colorSwap.hue = ClientPrefs.arrowHSV[noteData][0] / 360;
@@ -146,6 +147,10 @@ class Note extends FlxSprite
 						missHealth = 0.3;
 					}
 					hitCausesMiss = true;
+				case 'Behind Note':
+					colorSwap.hue = 0;
+					colorSwap.saturation = -50;
+					colorSwap.brightness = 0;
 				case 'Alt Animation':
 					animSuffix = '-alt';
 				case 'No Animation':
@@ -193,7 +198,6 @@ class Note extends FlxSprite
 				animation.play(animToPlay + 'Scroll');
 			}
 		}
-
 		// trace(prevNote);
 
 		if(prevNote!=null)

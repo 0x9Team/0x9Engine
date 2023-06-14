@@ -56,6 +56,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Mobile Middlescroll',
+			"If checked, your notes and the opponent's notes get centered.",
+			'mobileMidScroll',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Opponent Notes',
 			'If unchecked, opponent notes get hidden.',
 			'opponentStrums',
@@ -68,7 +75,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'healthGainType',
 			'string',
 			'VS Impostor',
-			['VS Impostor', 'Kade (1.2)', 'Kade (1.4.2 to 1.6)', 'Kade (1.6+)', 'Doki Doki+', 'Psych Engine']);
+			['VS Impostor', 'Kade (1.2)', 'Kade (1.4.2 to 1.6)', 'Kade (1.6+)', 'Doki Doki+', 'Psych Engine', 'Leather Engine']);
 		addOption(option);
 
 		var option:Option = new Option('Ghost Tapping',
@@ -106,6 +113,55 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Even LESS Botplay Lag',
+			"Reduce Botplay lag even further.",
+			'lessBotLag',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Instant Respawn',
+			"Instantly respawn when you die.",
+			'instaRestart',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('More Max Health',
+			"If checked, increases your max health to 150% instead of 100%.",
+			'moreMaxHP',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Shit Gives Miss',
+			"If checked, hitting a Shit rating will count as a miss.",
+			'shitGivesMiss',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Space to V-Pose',
+			"If checked, pressing the Space key will make BF go HEY!!",
+			'spaceVPose',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Ghost Tapping Plays Anim',
+			"If checked, Ghost Tapping will play BF's animations.",
+			'ghostTapAnim',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Enable Miss Sound',
+			"If checked, re-enables the miss sound when you miss a note.",
+			'missSoundShit',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',
@@ -118,6 +174,14 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		option.onChange = onChangeHitsoundVolume;
+
+		var option:Option = new Option('Hitsound:',
+			"What type of hitsound would you like?",
+			'hitsoundType',
+			'string',
+			'osu!mania',
+			['osu!mania', 'Dave And Bambi', 'Indie Cross', 'Snap', 'Clap', 'Generic Click', 'Keyboard Click', 'vine boom', 'Randomized']);
+		addOption(option);
 
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
@@ -183,6 +247,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.minValue = 2;
 		option.maxValue = 10;
 		option.changeValue = 0.1;
+		addOption(option);
+
+		var option:Option = new Option('More Specific Speed',
+			"If checked, Playback Rate's modifier will change in multiples of 0.01 instead of 0.05.",
+			'moreSpecificSpeed',
+			'bool',
+			true);
 		addOption(option);
 
 		super();

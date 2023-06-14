@@ -77,6 +77,7 @@ class ChartingState extends MusicBeatState
 	var eventStuff:Array<Dynamic> =
 	[
 		['', "Nothing. Yep, that's right."],
+		['Nothing', "Nothing 2: Electric Boogaloo"],
 		['Dadbattle Spotlight', "Used in Dad Battle,\nValue 1: 0/1 = ON/OFF,\n2 = Target Dad\n3 = Target BF"],
 		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
 		['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
@@ -108,6 +109,7 @@ class ChartingState extends MusicBeatState
 	private static var lastSong:String = '';
 
 	var bpmTxt:FlxText;
+	var songSlider:FlxUISlider;
 
 	var camPos:FlxObject;
 	var strumLine:FlxSprite;
@@ -356,19 +358,21 @@ class ChartingState extends MusicBeatState
 		\nALT + Left Bracket / Right Bracket - Reset Song Playback Rate
 		\nHold Shift to move 4x faster
 		\nHold Control and click on an arrow to select it
+		\nHold Alt and click on a note to change it to the selected note type
 		\nZ/X - Zoom in/out
 		\nC - Draw your charts! Easier charting for your Bambi fansongs lmao
 		\n
 		\nEsc - Test your chart inside Chart Editor
 		\nEnter - Play your chart
+		\nShift + Enter - Play your chart at the current section
 		\nQ/E - Decrease/Increase Note Sustain Length
 		\nSpace - Stop/Resume song";
 
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {
 			var tipText:FlxText = new FlxText(UI_box.x, UI_box.y + UI_box.height + 8, 0, tipTextArray[i], 16);
-			tipText.y += i * 12;
-			tipText.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+			tipText.y += i * 9;
+			tipText.setFormat(Paths.font("vcr.ttf"), 12, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			//tipText.borderSize = 2;
 			tipText.scrollFactor.set();
 			add(tipText);
@@ -389,6 +393,46 @@ class ChartingState extends MusicBeatState
 		add(curRenderedNoteType);
 		add(nextRenderedSustains);
 		add(nextRenderedNotes);
+
+		songSlider = new FlxUISlider(FlxG.sound.music, 'time', 1000, 15, 0, FlxG.sound.music.length, 250, 15, 5);
+		songSlider.valueLabel.visible = false;
+		songSlider.maxLabel.visible = false;
+		songSlider.minLabel.visible = false;
+		add(songSlider);
+		songSlider.scrollFactor.set();
+		songSlider.callback = function(fuck:Float)
+		{
+			vocals.time = FlxG.sound.music.time;
+			var shit = Std.int(FlxG.sound.music.time / (Conductor.crochet * 4)); //TODO uhh make this work properly with bpm changes or somethin
+
+			if (Conductor.bpmChangeMap.length > 0)
+			{
+				var foundSection:Bool = false;
+				var sec:Int = 1;
+				var lastSecStartTime:Float = 0;
+				while(!foundSection)
+				{	
+					var secStartTime = sectionStartTime(sec);
+					if (FlxG.sound.music.time >= lastSecStartTime && FlxG.sound.music.time <= secStartTime)
+					{
+						shit = sec;
+						foundSection = true;
+					}
+					else if (secStartTime >= FlxG.sound.music.length)
+					{
+						shit = 0;
+						foundSection = true;
+					}
+					sec++;
+					lastSecStartTime = secStartTime;
+				}
+			}
+
+
+
+
+			changeSection(shit);
+		};
 
 		if(lastSong != currentSongName) {
 			changeSection();
@@ -492,12 +536,12 @@ class ChartingState extends MusicBeatState
 		clear_notes.color = FlxColor.RED;
 		clear_notes.label.color = FlxColor.WHITE;
 
-		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, 400, 3);
+		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, 999999, 3);
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 		blockPressWhileTypingOnStepper.push(stepperBPM);
 
-		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, 10, 1);
+		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, 100, 1);
 		stepperSpeed.value = _song.speed;
 		stepperSpeed.name = 'song_speed';
 		blockPressWhileTypingOnStepper.push(stepperSpeed);
@@ -679,7 +723,7 @@ class ChartingState extends MusicBeatState
 		check_altAnim = new FlxUICheckBox(check_gfSection.x + 120, check_gfSection.y, null, null, "Alt Animation", 100);
 		check_altAnim.checked = _song.notes[curSec].altAnim;
 
-		stepperBeats = new FlxUINumericStepper(10, 100, 1, 4, 1, 6, 2);
+		stepperBeats = new FlxUINumericStepper(10, 100, 1, 4, 1, 8192, 2); //idk why youd need 8k beats in a single section but ok i guess??
 		stepperBeats.value = getSectionBeats();
 		stepperBeats.name = 'section_beats';
 		blockPressWhileTypingOnStepper.push(stepperBeats);
@@ -689,7 +733,7 @@ class ChartingState extends MusicBeatState
 		check_changeBPM.checked = _song.notes[curSec].changeBPM;
 		check_changeBPM.name = 'check_changeBPM';
 
-		stepperSectionBPM = new FlxUINumericStepper(10, check_changeBPM.y + 20, 1, Conductor.bpm, 0, 999, 1);
+		stepperSectionBPM = new FlxUINumericStepper(10, check_changeBPM.y + 20, 1, Conductor.bpm, 0, 999999, 1);
 		if(check_changeBPM.checked) {
 			stepperSectionBPM.value = _song.notes[curSec].bpm;
 		} else {
@@ -926,6 +970,10 @@ class ChartingState extends MusicBeatState
 	var strumTimeInputText:FlxUIInputText; //I wanted to use a stepper but we can't scale these as far as i know :(
 	var noteTypeDropDown:FlxUIDropDownMenuCustom;
 	var currentType:Int = 0;
+	var stepperSpamCloseness:FlxUINumericStepper;
+	var stepperSpamLength:FlxUINumericStepper;
+	var spamLength:Float = 5;
+	var spamCloseness:Float = 2;
 
 	function addNoteUI():Void
 	{
@@ -993,9 +1041,65 @@ class ChartingState extends MusicBeatState
 		});
 		blockPressWhileScrolling.push(noteTypeDropDown);
 
+		var spamButton:FlxButton = new FlxButton(noteTypeDropDown.x, noteTypeDropDown.y + 40, "Add Notes", function()
+		{
+			if (curSelectedNote != null) {
+				for(i in 0...Std.int(spamLength)) {
+					addNote(curSelectedNote[0] + (15000/_song.notes[curSec].bpm)/spamCloseness, curSelectedNote[1], curSelectedNote[2]);
+				}
+				FlxG.log.add('added the spam');
+				updateGrid();
+				updateNoteUI();
+			}
+		});
+		
+		stepperSpamCloseness = new FlxUINumericStepper(spamButton.x + 90, spamButton.y + 5, 2, 2, 1, 1024);
+		stepperSpamCloseness.value = spamCloseness;
+		stepperSpamCloseness.name = 'note_spamthing';
+		blockPressWhileTypingOnStepper.push(stepperSpamCloseness);
+
+		stepperSpamLength = new FlxUINumericStepper(stepperSpamCloseness.x + 90, stepperSpamCloseness.y, 5, 5, 1, 16384);
+		stepperSpamLength.value = spamLength;
+		stepperSpamLength.name = 'note_spamamount';
+		blockPressWhileTypingOnStepper.push(stepperSpamLength);
+
+		var leftSectionNotetype:FlxButton = new FlxButton(spamButton.x, spamButton.y + 40, "Left Section to Notetype", function()
+		{
+			for (i in 0..._song.notes[curSec].sectionNotes.length)
+			{
+				var note:Array<Dynamic> = _song.notes[curSec].sectionNotes[i];
+				if (note[1] < 4)
+				{
+				note[3] = noteTypeIntMap.get(currentType);
+				}
+				_song.notes[curSec].sectionNotes[i] = note;
+			}
+			updateGrid();
+		});
+		var rightSectionNotetype:FlxButton = new FlxButton(spamButton.x + 90, spamButton.y + 40, "Right Section to Notetype", function()
+		{
+			for (i in 0..._song.notes[curSec].sectionNotes.length)
+			{
+				var note:Array<Dynamic> = _song.notes[curSec].sectionNotes[i];
+				if (note[1] > 3)
+				{
+				note[3] = noteTypeIntMap.get(currentType);
+				}
+				_song.notes[curSec].sectionNotes[i] = note;
+			}
+			updateGrid();
+		});
+
 		tab_group_note.add(new FlxText(10, 10, 0, 'Sustain length:'));
+		tab_group_note.add(new FlxText(stepperSpamCloseness.x, stepperSpamCloseness.y - 15, 0, 'Note Density:'));
+		tab_group_note.add(new FlxText(stepperSpamLength.x, stepperSpamLength.y - 15, 0, 'Note Amount:'));
 		tab_group_note.add(new FlxText(10, 50, 0, 'Strum time (in miliseconds):'));
 		tab_group_note.add(new FlxText(10, 90, 0, 'Note type:'));
+		tab_group_note.add(spamButton);
+		tab_group_note.add(leftSectionNotetype);
+		tab_group_note.add(rightSectionNotetype);
+		tab_group_note.add(stepperSpamCloseness);
+		tab_group_note.add(stepperSpamLength);
 		tab_group_note.add(stepperSusLength);
 		tab_group_note.add(strumTimeInputText);
 		tab_group_note.add(noteTypeDropDown);
@@ -1370,6 +1474,15 @@ class ChartingState extends MusicBeatState
 		}
 		generateSong();
 		FlxG.sound.music.pause();
+		FlxG.sound.music.onComplete = function()
+		{
+			vocals.pause();
+			vocals.time = 0;
+			FlxG.sound.music.pause();
+			FlxG.sound.music.time = 0;
+			songSlider.maxValue = FlxG.sound.music.length;
+			changeSection();
+		};
 		Conductor.songPosition = sectionStartTime();
 		FlxG.sound.music.time = Conductor.songPosition;
 	}
@@ -1460,6 +1573,14 @@ class ChartingState extends MusicBeatState
 					curSelectedNote[2] = nums.value;
 					updateGrid();
 				}
+			}
+			else if (wname == 'note_spamthing')
+			{
+				spamCloseness = nums.value;
+			}
+			else if (wname == 'note_spamamount')
+			{
+				spamLength = nums.value;
 			}
 			else if (wname == 'section_bpm')
 			{
@@ -1565,7 +1686,7 @@ class ChartingState extends MusicBeatState
 			{
 				if (_song.notes[curSec + 1] == null)
 				{
-					addSection();
+					addSection(getSectionBeats());
 				}
 
 				changeSection(curSec + 1, false);
@@ -1686,6 +1807,9 @@ class ChartingState extends MusicBeatState
 				PlayState.SONG = _song;
 				FlxG.sound.music.stop();
 				if(vocals != null) vocals.stop();
+				if (FlxG.keys.pressed.SHIFT) {
+					PlayState.startOnTime = sectionStartTime();
+				}
 
 				//if(_song.stage == null) _song.stage = stageDropDown.selectedLabel;
 				StageData.loadDirectory(_song);
@@ -1729,6 +1853,7 @@ class ChartingState extends MusicBeatState
 				curZoom++;
 				updateZoom();
 			}
+
 			if (FlxG.keys.pressed.C && !FlxG.keys.pressed.CONTROL)
 				if (!FlxG.mouse.overlaps(curRenderedNotes)) //lmao cant place notes when your cursor already overlaps one
 					if (FlxG.mouse.x > gridBG.x
@@ -2492,6 +2617,7 @@ class ChartingState extends MusicBeatState
 		}
 		Conductor.songPosition = FlxG.sound.music.time;
 		updateWaveform();
+		autosaveSong();
 	}
 
 	function updateSectionUI():Void
@@ -2759,7 +2885,7 @@ class ChartingState extends MusicBeatState
 	private function addSection(sectionBeats:Float = 4):Void
 	{
 		var sec:SwagSection = {
-			sectionBeats: sectionBeats,
+			sectionBeats: getSectionBeats(),
 			bpm: _song.bpm,
 			changeBPM: false,
 			mustHitSection: true,

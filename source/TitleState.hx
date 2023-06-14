@@ -602,11 +602,18 @@ class TitleState extends MusicBeatState
 		}
 	}
 
+	var zoomies:Float = 1.025;
 	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 	public static var closedState:Bool = false;
 	override function beatHit()
 	{
 		super.beatHit();
+
+		FlxG.camera.zoom = zoomies;
+
+		FlxTween.tween(FlxG.camera, {zoom: 1}, Conductor.crochet / 1300, {
+			ease: FlxEase.quadOut
+		});
 
 		if(logoBl != null)
 			logoBl.animation.play('bump', true);
@@ -639,6 +646,7 @@ class TitleState extends MusicBeatState
 					addMoreText('Shadow Mario', 15);
 					addMoreText('RiverOaken', 15);
 					addMoreText('shubs', 15);
+					addMoreText('Jordan Santiago', 15);
 					#else
 					addMoreText('present');
 					#end
@@ -658,7 +666,7 @@ class TitleState extends MusicBeatState
 				case 8:
 					addMoreText('newgrounds', -40);
 					ngSpr.visible = true;
-				// credTextShit.text += '\nNewgrounds';
+				// credTextShit.text += '\nNewgrounds & GitHub';
 				case 9:
 					deleteCoolText();
 					ngSpr.visible = false;
@@ -698,6 +706,17 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
+			FlxTween.tween(logoBl, {y: -100}, 1.4, {ease: FlxEase.expoInOut});
+
+			logoBl.angle = -4;
+
+			new FlxTimer().start(0.01, function(tmr:FlxTimer)
+			{
+				if (logoBl.angle == -4)
+					FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
+				if (logoBl.angle == 4)
+					FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
+			}, 0);
 			if (playJingle) //Ignore deez
 			{
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;

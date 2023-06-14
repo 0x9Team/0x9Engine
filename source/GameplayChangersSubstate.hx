@@ -64,7 +64,13 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 1;
 		option.minValue = 0.01;
 		option.maxValue = 10;
+		if (ClientPrefs.moreSpecificSpeed)
+		{
+		option.changeValue = 0.01;
+		} else
+		{
 		option.changeValue = 0.05;
+		}
 		option.displayFormat = '%vX';
 		option.decimals = 2;
 		optionsArray.push(option);
@@ -119,6 +125,20 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		optionsArray.push(option);
 	
 		var option:GameplayOption = new GameplayOption('Flip Mode', 'flip', 'bool', false);
+		optionsArray.push(option);
+
+		var option:GameplayOption = new GameplayOption('One Key', 'onekey', 'bool', false);
+		optionsArray.push(option);
+
+		var option:GameplayOption = new GameplayOption('Jack Amount: ', 'jacks', 'float', 0);
+		option.scrollSpeed = 6;
+		option.minValue = 0;
+		option.maxValue = 100;
+		option.changeValue = 1;
+		option.displayFormat = '%v';
+		optionsArray.push(option);
+
+		var option:GameplayOption = new GameplayOption('Random Playback Rate', 'randomspeed', 'bool', false);
 		optionsArray.push(option);
 	}
 

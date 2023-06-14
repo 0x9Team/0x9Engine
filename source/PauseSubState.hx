@@ -20,7 +20,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -183,6 +183,14 @@ class PauseSubState extends MusicBeatSubstate
 					{
 						curTime += 45000 * elapsed * (controls.UI_LEFT ? -1 : 1);
 					}
+					if(holdTime > 0.5 && FlxG.sound.music.length >= 600000)
+					{
+						curTime += 150000 * elapsed * (controls.UI_LEFT ? -1 : 1);
+					}
+					if(holdTime > 0.5 && FlxG.sound.music.length >= 3600000)
+					{
+						curTime += 450000 * elapsed * (controls.UI_LEFT ? -1 : 1);
+					}
 
 					if(curTime >= FlxG.sound.music.length) curTime -= FlxG.sound.music.length;
 					else if(curTime < 0) curTime += FlxG.sound.music.length;
@@ -251,6 +259,9 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 0;
+				case "Options":
+					close();
+					LoadingState.loadAndSwitchState(new options.OptionsState());
 				case "Exit to menu":
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
