@@ -134,6 +134,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Camera Movement',
+			"If checked, camera will movement when you hitt the note",
+			'noteCamera',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Shit Gives Miss',
 			"If checked, hitting a Shit rating will count as a miss.",
 			'shitGivesMiss',

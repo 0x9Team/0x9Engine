@@ -6220,6 +6220,34 @@ if (!allSicks && ClientPrefs.colorRatingFC && songMisses > 0 && ClientPrefs.hudT
 		callOnLuas('noteMissPress', [direction]);
 	}
 
+	function cameraMoveOnNote(move:String, character:String)
+	{
+		var amount:Array<Float> = new Array<Float>();
+		var followAmount:Float = ClientPrefs.noteCamera ? 20 : 0;
+		switch (move)
+		{
+			case 'LEFT':
+				amount[0] = -followAmount;
+				amount[1] = 0;
+			case 'DOWN':
+				amount[0] = 0;
+				amount[1] = followAmount;
+			case 'UP':
+				amount[0] = 0;
+				amount[1] = -followAmount;
+			case 'RIGHT':
+				amount[0] = followAmount;
+				amount[1] = 0;
+		}
+		switch (character)
+		{
+			case 'dad':
+				dadNoteCamOffset = amount;
+			case 'bf':
+				bfNoteCamOffset = amount;
+		}
+	}
+
 	function opponentNoteHit(note:Note):Void
 	{
 		if (!opponentChart) {
@@ -6352,6 +6380,7 @@ if (!allSicks && ClientPrefs.colorRatingFC && songMisses > 0 && ClientPrefs.hudT
 		{
 			spawnNoteSplashOnNote(true, note);
 		}
+		cameraMoveOnNote(note, 'dad');
 
 		if (SONG.needsVoices)
 			vocals.volume = 1;
@@ -6517,6 +6546,7 @@ if (!allSicks && ClientPrefs.colorRatingFC && songMisses > 0 && ClientPrefs.hudT
 				missCombo = 0;
 				notesHitArray.unshift(Date.now());
 				popUpScore(note);
+				cameraMoveOnNote(note, 'bf');
 			}
 			if (!note.isSustainNote && cpuControlled && ClientPrefs.lessBotLag)
 			{

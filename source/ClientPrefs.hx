@@ -25,6 +25,7 @@ class ClientPrefs {
 	public static var cursing:Bool = true;
 	public static var longHPBar:Bool = false;
 	public static var moreMaxHP:Bool = false;
+	public static var noteCamera:Bool = false;
 	public static var songPercentage:Bool = true;
 	public static var randomBotplayText:Bool = true;
 	public static var opponentLightStrum:Bool = true;
@@ -173,6 +174,7 @@ class ClientPrefs {
 		FlxG.save.data.arrowHSV = arrowHSV;
 		FlxG.save.data.longHPBar = longHPBar;
 		FlxG.save.data.moreMaxHP = moreMaxHP;
+		FlxG.save.data.noteCamera = noteCamera;
 		FlxG.save.data.moreSpecificSpeed = moreSpecificSpeed;
 		FlxG.save.data.spaceVPose = spaceVPose;
 		FlxG.save.data.ghostTapAnim = ghostTapAnim;
@@ -286,6 +288,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.moreMaxHP != null) {
 			moreMaxHP = FlxG.save.data.moreMaxHP;
+		}
+		if(FlxG.save.data.noteCamera != null) {
+			noteCamera = FlxG.save.data.noteCamera;
 		}
 		if(FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
